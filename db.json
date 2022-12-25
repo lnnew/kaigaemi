@@ -1,0 +1,96 @@
+{
+  "users": [
+    {
+      "id": "PN6BKlVLy",
+      "email": "admin",
+      "password": "0329",
+      "displayName": "관리자"
+    },
+    {
+      "id": "v5m_HdXcn",
+      "email": "1",
+      "password": "yoo",
+      "displayName": "1조"
+    },
+    {
+      "id": "yqrfHYmdx",
+      "email": "2",
+      "password": "ji",
+      "displayName": "2조"
+    },
+    {
+      "id": "wXVFz5x6M",
+      "email": "3",
+      "password": "hyun",
+      "displayName": "3조"
+    },
+    {
+      "id": "8PpGhPF8S",
+      "email": "4",
+      "password": "e",
+      "displayName": "4조"
+    },
+    {
+      "id": "2qSw99zCL",
+      "email": "5",
+      "password": "man",
+      "displayName": "5조"
+    },
+    {
+      "id": "FxXnPGrJw",
+      "email": "6",
+      "password": "dum",
+      "displayName": "6조"
+    },
+    {
+      "id": "gw8QJbibb",
+      "email": "7",
+      "password": "kai",
+      "displayName": "7조"
+    },
+    {
+      "id": "pPaAIFz3n",
+      "email": "8",
+      "password": "nuri",
+      "displayName": "8조"
+    },
+    {
+      "id": "l6bb-ZFaE",
+      "email": "9",
+      "password": "choi",
+      "displayName": "9조"
+    },
+    {
+      "id": "ZRfEH9Edh",
+      "email": "10",
+      "password": "go",
+      "displayName": "10조"
+    },
+    {
+      "id": "AnK7O90qQ",
+      "email": "11",
+      "password": "<",
+      "displayName": "11조"
+    },
+    {
+      "id": "L76RAVZfE",
+      "email": "12",
+      "password": "3",
+      "displayName": "12조"
+    }
+  ],
+  "topics": [
+    {
+      "id": "NAhWgH9Ib",
+      "title": "w",
+      "description": "",
+      "user_id": "PN6BKlVLy"
+    },
+    {
+      "id": "y3y6aRJjG",
+      "title": "",
+      "description": "ww",
+      "user_id": "PN6BKlVLy"
+    }
+  ]
+}
