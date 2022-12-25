@@ -9,14 +9,19 @@ var session = require('express-session')
 var FileStore = require('session-file-store')(session)
 var flash = require('connect-flash');
 const { Client } = require("pg");
+// const client = new Client({
+//   user: "postgres",
+//   host: "127.0.0.1",
+//   database: "nodedb",
+//   password: "0329",
+//   port: 5432,
+// });
 const client = new Client({
-  user: "postgres",
-  host: "127.0.0.1",
-  database: "nodedb",
-  password: "0329",
-  port: 5432,
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
-
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({
   extended: false
