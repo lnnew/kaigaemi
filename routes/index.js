@@ -4,13 +4,11 @@ var template = require('../lib/template2.js');
 var auth = require('../lib/auth');
 const { Pool } = require('pg')
 const pool = new Pool({
-  user: "postgres",
-  host: "127.0.0.1",
-  database: "nodedb",
-  password: "0329",
-  port: 5432,
+ connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
-
 
 router.get('/',  async (request, response) => {
   if (!auth.isOwner(request, response)) {
