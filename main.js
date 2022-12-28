@@ -9,18 +9,25 @@ var session = require('express-session')
 var FileStore = require('session-file-store')(session)
 var flash = require('connect-flash');
 const { Client } = require("pg");
+// var conString = "postgres://arzktxswwbrmhd:570ee5e6b8fe0640c46cf2735695998d5c7f1c17bc6af0709cf5d3b0695fcd18@ec2-34-231-63-30.compute-1.amazonaws.com:5432/d72ae1dpu44igv";
+// var client = new Client(conString);
+// const client = new Client({
+//    user: "arzktxswwbrmhd",
+//    host: "ec2-34-231-63-30.compute-1.amazonaws.com",
+//   database: "d72ae1dpu44igv",
+//   password: "570ee5e6b8fe0640c46cf2735695998d5c7f1c17bc6af0709cf5d3b0695fcd18",
+//      port: 5432,
+//  });
 const client = new Client({
-  user: "postgres",
-  host: "127.0.0.1",
+   user: "postgres",
+   host: "localhost",
   database: "nodedb",
   password: "0329",
-  port: 5432,
-});
+     port: 5432,
+ });
+ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('public'));
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
 app.use(compression());
 app.use(session({
   secret: 'asadlfkj!@#!@#dfgasdg',
