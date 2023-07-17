@@ -65,6 +65,15 @@ router.get('/danhap', async (request, response) => {
 
 <a href ="/ipchal_result"><b style="color:blue"> 관리자 메인 페이지</b></a>
 <h1>단합</h1>
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 10px;
+}
+</style>
 <table>
 <tbody><tr>
         <th>단합 번호</th>
@@ -74,10 +83,11 @@ router.get('/danhap', async (request, response) => {
       ${current_danhap}
     </tbody>
     </table>
-
-    <a href ="/danhap_init"><b style="color:red"> 단합 초기화히기
+    <hr/>
+    <a href ="/danhap_init"><b style="color:red"> 단합 초기화하기
         </b></a>
-<p>The select element is used to create a drop-down list.</p>
+        <hr/>
+      <h2>단합 조 추가하기</h2>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <form action="/danhap_process" method="post">
 <div class="w3-row">
@@ -187,6 +197,15 @@ router.get('/ipchal_now', async (request, response) => {
 <hr/>
 <a href ="/year_process" onclick="return confirm('마감하시겠습니까? 다음 년으로 진행합니다.')">><b style="color:blue">마감(다음년으로 가기)</b></a>
 <hr/>
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 10px;
+}
+</style>
 <table>
 <tbody><tr>
         <th>조</th>
@@ -241,7 +260,15 @@ router.get('/ipchal_result', async (request, response) => {
     <hr/>
     <a href ="/ipchal_now"><b style="color:blue"> 입찰 현황 페이지</b></a>
     <hr/>
-
+    <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+    }
+    </style>
     <table>
     <tbody>
     <tr>
