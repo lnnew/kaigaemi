@@ -11,7 +11,143 @@ const pool = new Pool({
   //  port: 5432,
 
 });
+router.get('/danhap_init', async (request, response) => {
+  if (!auth.isAdmin(request, response)) {
+    response.redirect('/auth/login');
+    return false;
+  }
+  //stock 초기화
+  await pool.query("DELETE FROM danhap",[]);
+  response.redirect("/danhap");
 
+})
+
+router.post('/danhap',  async (request, response) => {
+  if (!auth.isOwner(request, response)) {
+    response.redirect('/auth/login');
+    return false;
+  }
+  let post = request.body;
+  var danhap_num =post["danhap_num"]
+  var danhap_jong = post["danhap_jong"];
+    var danhap_jos = post["danhap_jos"];
+
+    await pool.query("INSERT INTO danhap(group,jos,stock_name) VALUES ($1,$2,$3)",[danhap_num,danhap_jos,danhap_jong]);
+
+  
+  response.redirect("/danhap");
+  //response.send(`<script>alert("입찰이 완료되었습니다."); window.location.href = "/"; </script>`);
+  //response.send(<script>alert("your alert message"); window.location.href = "/page_location"; </script>);
+});
+
+router.get('/danhap', async (request, response) => {
+  if (!auth.isAdmin(request, response)) {
+    response.redirect('/auth/login');
+    return false;
+  }
+  let danhap = await pool.query("SELECT * FROM danhap ORDER BY group ASC",[]);
+  // quantities 변동
+  danhap =  danhap.rows;
+  current_danhap ="";
+  var stock_names = ["원혁엔터","하윤엔터","소예IT","준서건설","윤정코스메틱","카눌국방","예림교통","카이코인"]
+  for (let i =0; i<danhap.length;i++){
+    current_danhap+=`<tr>
+          <td>${danhap[i]['group']}</td>
+          <td>${danhap[i]['jos']}</td>
+          <td>${danhap[i]['stock_name']} ${stock_names[danhap[i]['stock_name']]}</td>
+        </tr>`
+  }
+  var html = `<!DOCTYPE html>
+<html>
+<body>
+
+<h1>The select element</h1>
+<table>
+<tbody>${current_danhap}
+    </tbody>
+    </table>
+
+    <a href ="/danhap_init"><b style="color:red"> 단합 초기화히기
+        </b></a>
+<p>The select element is used to create a drop-down list.</p>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<form action="/action_page.php">
+<div class="w3-row">
+ <div class= "w3-col">
+<label for="quantity">단합 번호</label>
+<input type="number" id="danhap_num" name="danhap_num" min="1" max="999" required><br>
+</div>
+ <div class= "w3-col">
+  <label for="danhap_num">단합 종목</label>
+  <select id="danhap_jong" name="danhap_jong" required>
+                    <option value="" selected disabled hidden >단합 종목 선택</option>
+                    <option value="0">원혁엔터</option>
+                    <option value="1">하윤엔터</option>
+                    <option value="2">소예IT</option>
+                    <option value="3">준서건설</option>
+                    <option value="4">윤정코스메틱</option>
+                    <option value="5">카눌국방</option>
+                    <option value="6">예림교통</option>
+                    <option value="7">카이코인</option>
+                  </select>
+ </div>
+ <div class="w3-col w3-row">
+ <div class= "w3-col">
+   <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="1">
+   <label for="1">1</label>
+   </div>
+    <div class= "w3-col">
+   <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="2">
+   <label for="2">2</label>   </div>
+    <div class= "w3-col">
+      <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="3">
+   <label for="3">3</label>   </div>
+    <div class= "w3-col">
+   <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="4">
+   <label for="4">4</label>   </div>
+    <div class= "w3-col">
+      <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="5">
+   <label for="5">5</label>   </div>
+    <div class= "w3-col">
+   <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="6">
+   <label for="6">6</label>   </div>
+    <div class= "w3-col">
+      <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="7">
+   <label for="7">7</label>   </div>
+    <div class= "w3-col">
+   <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="8">
+   <label for="8">8</label>   </div>
+    <div class= "w3-col">
+      <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="9">
+   <label for="9">9</label>   </div>
+    <div class= "w3-col">
+   <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="10">
+   <label for="10">10</label>   </div>
+    <div class= "w3-col">
+      <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="11">
+   <label for="11">11</label>   </div>
+    <div class= "w3-col">
+   <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="12">
+   <label for="12">12</label>   </div>
+
+   </div>
+   <style>
+   .w3-row label { margin-right: 5px;
+   }</style>
+  <br><br>
+  <input type="submit" value="Submit">
+ </div>
+</form>
+
+
+</body>
+</html>
+`
+  response.send(html);
+
+
+
+})
 
 router.get('/initialize', async (request, response) => {
   if (!auth.isAdmin(request, response)) {
