@@ -60,22 +60,22 @@ router.get('/danhap', async (request, response) => {
         </tr>`
   }
   var html = `<!DOCTYPE html>
-<html>
-<body>
+  <html>
+  <body>
 
-<a href ="/ipchal_result"><b style="color:blue"> 관리자 메인 페이지</b></a>
-<h1>단합</h1>
-<style>
-table, th, td {
+  <a href ="/ipchal_result"><b style="color:blue"> 관리자 메인 페이지</b></a>
+  <h1>단합</h1>
+  <style>
+  table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
-}
-th, td {
+  }
+  th, td {
   padding: 10px;
-}
-</style>
-<table>
-<tbody><tr>
+  }
+  </style>
+  <table>
+  <tbody><tr>
         <th>단합 번호</th>
         <th>참여 조들</th>
         <th>종목 이름</th>
@@ -88,14 +88,14 @@ th, td {
         </b></a>
         <hr/>
       <h2>단합 조 추가하기</h2>
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<form action="/danhap_process" method="post">
-<div class="w3-row">
- <div class= "w3-col">
-<label for="quantity">단합 번호</label>
-<input type="number" id="danhap_num" name="danhap_num" min="1" max="999" required><br>
-</div>
- <div class= "w3-col">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <form action="/danhap_process" method="post">
+  <div class="w3-row" style="width:80%;margin-left:10%">
+  <div class= "w3-col">
+  <label for="quantity">단합 번호</label>
+  <input type="number" id="danhap_num" name="danhap_num" min="1" max="999" required><br>
+  </div>
+  <div class= "w3-col">
   <label for="danhap_num">단합 종목</label>
   <select id="danhap_jong" name="danhap_jong" required>
                     <option value="" selected disabled hidden >단합 종목 선택</option>
@@ -108,58 +108,62 @@ th, td {
                     <option value="6">예림교통</option>
                     <option value="7">카이코인</option>
                   </select>
- </div>
- <div class="w3-col w3-row">
- <div class= "w3-col">
-   <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="1">
+  </div>
+  <div class="w3-col w3-row">
+  <div class= "w3-col">
+   <input type="checkbox" style="margin-bottom:7px" id="danhap_jos" name="danhap_jos[]" value="1">
    <label for="1">1조</label>
    </div>
-    <div class= "w3-col">
-   <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="2">
+    <div class= "w3-col" style="margin-bottom:7px;margin-top:7px">
+   <input type="checkbox" style="margin-bottom:7px;margin-top:7px" id="danhap_jos" name="danhap_jos[]" value="2">
    <label for="2">2조</label>   </div>
-    <div class= "w3-col">
-      <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="3">
+    <div class= "w3-col" style="margin-bottom:7px">
+      <input type="checkbox" style="margin-bottom:7px" id="danhap_jos" name="danhap_jos[]" value="3">
    <label for="3">3조</label>   </div>
-    <div class= "w3-col">
-   <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="4">
+    <div class= "w3-col" style="margin-bottom:7px">
+   <input type="checkbox" style="margin-bottom:7px" id="danhap_jos" name="danhap_jos[]" value="4">
    <label for="4">4조</label>   </div>
-    <div class= "w3-col">
-      <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="5">
+    <div class= "w3-col" style="margin-bottom:7px">
+      <input type="checkbox" style="margin-bottom:7px" id="danhap_jos" name="danhap_jos[]" value="5">
    <label for="5">5조</label>   </div>
-    <div class= "w3-col">
-   <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="6">
+    <div class= "w3-col" style="margin-bottom:7px">
+   <input type="checkbox" style="margin-bottom:7px" id="danhap_jos" name="danhap_jos[]" value="6">
    <label for="6">6조</label>   </div>
-    <div class= "w3-col">
-      <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="7">
+    <div class= "w3-col" style="margin-bottom:7px">
+      <input type="checkbox" style="margin-bottom:7px" id="danhap_jos" name="danhap_jos[]" value="7">
    <label for="7">7조</label>   </div>
-    <div class= "w3-col">
-   <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="8">
+    <div class= "w3-col" style="margin-bottom:7px">
+   <input type="checkbox" style="margin-bottom:7px" id="danhap_jos" name="danhap_jos[]" value="8">
    <label for="8">8조</label>   </div>
-    <div class= "w3-col">
-      <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="9">
+    <div class= "w3-col" style="margin-bottom:7px">
+      <input type="checkbox" style="margin-bottom:7px" id="danhap_jos" name="danhap_jos[]" value="9">
    <label for="9">9조</label>   </div>
-    <div class= "w3-col">
-   <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="10">
+    <div class= "w3-col" style="margin-bottom:7px">
+   <input type="checkbox" style="margin-bottom:7px" id="danhap_jos" name="danhap_jos[]" value="10">
    <label for="10">10조</label>   </div>
-    <div class= "w3-col">
-      <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="11">
+    <div class= "w3-col" style="margin-bottom:7px">
+      <input type="checkbox" style="margin-bottom:7px" id="danhap_jos" name="danhap_jos[]" value="11">
    <label for="11">11조</label>   </div>
-    <div class= "w3-col">
-   <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="12">
+    <div class= "w3-col" style="margin-bottom:7px">
+   <input type="checkbox" style="margin-bottom:7px" id="danhap_jos" name="danhap_jos[]" value="12">
    <label for="12">12조</label>   </div>
 
    </div>
    <style>
+   input[type=checkbox] {
+    transform: scale(2);
+  }
    .w3-row label { margin-right: 5px;
    }</style>
   <br><br>
   <input type="submit" value="Submit">
- </div>
-</form>
+  </div>
+  </form>
 
 
-</body>
-</html>
+  </body>
+  </html>
+
 `
   response.send(html);
 
