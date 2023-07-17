@@ -96,6 +96,7 @@ module.exports = function (passport) {
             background-color: #01438f;
           }
       </style>
+      <title>invAIST</title>
       </head>
       <body>
 
@@ -104,7 +105,7 @@ module.exports = function (passport) {
           <div class ="w3-col s4">
           <p style="color:white">
 
-      &emsp;<i class="fa-solid fa-chart-simple"></i>&nbsp;카이개미들의 주식나기</p>
+      &emsp;<i class="fa-solid fa-chart-simple"></i>&nbsp;invAIST</p>
       </div>
       </header>
       <style>
