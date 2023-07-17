@@ -34,7 +34,7 @@ router.post('/danhap',  async (request, response) => {
 
     await pool.query("INSERT INTO danhap(group,jos,stock_name) VALUES ($1,$2,$3)",[danhap_num,danhap_jos,danhap_jong]);
 
-  
+
   response.redirect("/danhap");
   //response.send(`<script>alert("입찰이 완료되었습니다."); window.location.href = "/"; </script>`);
   //response.send(<script>alert("your alert message"); window.location.href = "/page_location"; </script>);
@@ -48,6 +48,7 @@ router.get('/danhap', async (request, response) => {
   let danhap = await pool.query("SELECT * FROM danhap ORDER BY group ASC",[]);
   // quantities 변동
   danhap =  danhap.rows;
+  console.log("단합",danhap)
   current_danhap ="";
   var stock_names = ["원혁엔터","하윤엔터","소예IT","준서건설","윤정코스메틱","카눌국방","예림교통","카이코인"]
   for (let i =0; i<danhap.length;i++){
