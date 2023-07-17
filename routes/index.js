@@ -22,7 +22,7 @@ router.get('/danhap_init', async (request, response) => {
 
 })
 
-router.post('/danhap',  async (request, response) => {
+router.post('/danhap_process',  async (request, response) => {
   if (!auth.isOwner(request, response)) {
     response.redirect('/auth/login');
     return false;
@@ -79,7 +79,7 @@ router.get('/danhap', async (request, response) => {
         </b></a>
 <p>The select element is used to create a drop-down list.</p>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<form action="/danhap">
+<form action="/danhap_process">
 <div class="w3-row">
  <div class= "w3-col">
 <label for="quantity">단합 번호</label>
@@ -168,9 +168,9 @@ router.get('/ipchal_result', async (request, response) => {
   var stock_names = ["원혁엔터","하윤엔터","소예IT","준서건설","윤정코스메틱","카눌국방","예림교통","카이코인"]
   for (let i =0; i<stock.length;i++){
     current_stock+=`<tr>
-          <td>${stock[i]['stock_name']}</td>
+          <td>${stock[i]['stock_name']} ${stock_names[stock[i]['stock_name']]}</td>
           <td>${stock[i]['quantity']}</td>
-          <td>${stock[i]['ipchal_results']} ${stock_names[stock[i]['ipchal_results']]}</td>
+          <td>${stock[i]['ipchal_results']} </td>
         </tr>`
   }
     var html =  `<!DOCTYPE html>
