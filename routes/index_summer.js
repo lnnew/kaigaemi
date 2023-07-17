@@ -12,7 +12,6 @@ const pool = new Pool({
 
 });
 
-
 router.get('/initialize', async (request, response) => {
   if (!auth.isAdmin(request, response)) {
     response.redirect('/auth/login');
@@ -35,6 +34,7 @@ router.get('/initialize', async (request, response) => {
     await pool.query("INSERT INTO jo(jo) VALUES ($1)",[i]);
   }
   await pool.query("UPDATE current_info SET value_int = $1 WHERE name=$2",[2016,"year"]);
+  await pool.query("UPDATE current_info SET value_int = $1 WHERE name=$2",[2016,"year"]);
   // player 초기화
 
   response.redirect("/");
@@ -49,11 +49,12 @@ router.get('/year_process' , async (request, response) => {
   prices =prices.rows;
   let quantities = await pool.query("SELECT * FROM stock_quantities ORDER BY stock_name ASC",[]);
   quantities =  quantities.rows;
-  let danhaps = await pool.query(`SELECT * FROM danhap ORDER BY "group" ASC`,[]);
-  danhaps=danhaps.rows;
+  const danhaps = await pool.query(`SELECT * FROM danhap ORDER BY "group" ASC`,[]);
   // const danhaps = await pool.query("SELECT * FROM danhap",[]);
-
-
+  const danhaped_stock_names =[];
+  for (let i =0; i<danhaps.length;i++){
+    danhaped_stock_names.push(danhaps[i]['stock_name']);
+  }
   // 종목 별 입찰 결과 계산
 
   let  year = await pool.query("SELECT value_int FROM current_info WHERE name=$1",["year"]);
@@ -64,30 +65,6 @@ router.get('/year_process' , async (request, response) => {
   let ipchal_lists =await pool.query("SELECT ipchal FROM jo ORDER BY jo ASC",[]);
   ipchal_lists=ipchal_lists.rows;
   // 조별 주식 늘어나기 적용, budget에서 구매 금액 빼기
-
-  for (let jo=1;jo<13;jo++){
-    await pool.query("UPDATE jo SET past_ipchal = ipchal WHERE jo =$1",[jo]);
-  }
-
-  console.log("danhap11111111", danhaps);
-   if (danhaps){
-     for (let jo =1;jo<13; jo ++){
-         let a_ipchal = ipchal_lists[jo-1]["ipchal"];
-         for (let i =0; i<danhaps.length;i++){
-            let a_danhap = danhaps[i]['stock_name'];
-            console.log("danhap",jo, danhaps[i]["jos"],a_danhap);
-            if (!(jo in danhaps[i]["jos"])) {
-               a_ipchal[a_danhap]=0;
-              }
-         }
-
-         await pool.query("UPDATE jo SET ipchal = $1 WHERE jo=$2",[a_ipchal,jo]);
-
-     }
-   }
-    //danhaped_stock_names.push(danhaps[i]['stock_name']);
-
-
   for(let i=0; i<8; i++) {
     let stock_quantity = current_stocks[i]['quantity'];
     //let a_ipchal = [current_stocks[i]['ipchals'];]
@@ -95,10 +72,12 @@ router.get('/year_process' , async (request, response) => {
     for (let j =0;j<12;j++){
       a_ipchal.push(ipchal_lists[j]['ipchal'][i]); //j:list index, not조
     }
-    let a_ipchal_result = algorithm(a_ipchal,stock_quantity);
-    console.log("결과:",a_ipchal_result);
-    await pool.query("UPDATE current_stocks SET ipchal_results = $1 WHERE stock_name=$2",[a_ipchal_result,i]);
-    console.log(2);
+    console.log(i, "번째 주식 입찰:",a_ipchal);
+let a_ipchal_result = algorithm(a_ipchal,stock_quantity);
+console.log(i, "번째 주식 결과:",a_ipchal_result);
+await pool.query("UPDATE current_stocks SET ipchal_results = $1 WHERE stock_name=$2",[a_ipchal_result,i]);
+
+
 
     //자산 및 cash 산 거 적}
     for(let jo =1; jo<13;jo++){
@@ -179,30 +158,15 @@ router.get('/year_process' , async (request, response) => {
   //주식 종목 별 추가 수량 입고
   let stock_qs = await pool.query("SELECT * FROM stock_quantities ORDER BY stock_name ASC",[])
   stock_qs = stock_qs.rows;
-  if (year!=2022){
-    for (let i =0; i<8;i++){
-      let ipgo=stock_qs[i][year] - stock_qs[i][year-1];
-      await pool.query("UPDATE current_stocks SET quantity = quantity+$1 WHERE stock_name =$2",[ipgo,i]);
+  for (let i =0; i<8;i++){
+    let ipgo=stock_qs[i][year] - stock_qs[i][year-1];
+    await pool.query("UPDATE current_stocks SET quantity = quantity+$1 WHERE stock_name =$2",[ipgo,i]);
 
-    }
   }
-
 
   // 물량 업데이트
  await pool.query("UPDATE jo SET budget = budget+100",[])
  await pool.query("UPDATE jo SET cash = cash+100",[])
- if (year==2018 || year == 2020) {
-   let semu_ranking = await pool.query("SELECT jo FROM jo ORDER BY year_budget DESC",[])
-   for (let rank = 0; rank<3; rank++){
-     let semu_jo = semu_ranking.rows[rank]["jo"];
-     await pool.query("UPDATE jo SET budget = budget-50 WHERE jo =$1",[semu_jo])
-     await pool.query("UPDATE jo SET cash = cash-50 WHERE jo =$1",[semu_jo])
-   }
- }
- for (let jo =0; jo<13;jo++){
-   await pool.query("UPDATE jo SET year_budget =budget  WHERE jo=$1",[jo]);
- }
-
   response.redirect("/");
 })
 
@@ -210,6 +174,7 @@ async function initialize(str) {
   if (str=="."){
 
   } else if (str=="ipchal") {
+    await pool.query("UPDATE jo SET past_ipchal = ipchal",[]);
     await pool.query("UPDATE jo SET ipchal = DEFAULT",[]);
   }
 
@@ -237,16 +202,17 @@ router.get('/',  async (request, response) => {
   if (request.user.email != "admin"){
      jo_info =await pool.query("SELECT * FROM jo WHERE jo = $1",[parseInt(request.user.email)]);
   }
-  const jangos = await pool.query("SELECT * FROM current_stocks ORDER BY stock_name ASC",[]);
+  var title = 'Welcome';
+  var description = 'Hello, Node.js';
+  var list = template.list(request.list);
   var year = parseInt(a.rows[0]['value_int']);
-  const ranking = await pool.query("SELECT jo,year_budget FROM jo ORDER BY year_budget DESC",[]);
-  var html = template.HTML(request.user,year,jo_info.rows[0],jangos.rows, jo_info.rows[0]['ipchal'],ranking.rows);
+  var html = template.HTML(request.user,year,jo_info.rows[0]);
   response.send(html);
 
 });
 
 function algorithm(inlist,mamul) {
- let length = inlist.length;
+ let length = inlist.length
  let suml = inlist.reduce((partialSum, a) => partialSum + a, 0)
  if (suml==0){
    return inlist;
@@ -279,6 +245,7 @@ function algorithm(inlist,mamul) {
  return int_list
 
 }
+
 router.post('/hint',  async (request, response) => {
   if (!auth.isOwner(request, response)) {
     response.redirect('/auth/login');
@@ -295,6 +262,7 @@ router.post('/hint',  async (request, response) => {
   //response.send(`<script>alert("입찰이 완료되었습니다."); window.location.href = "/"; </script>`);
   //response.send(<script>alert("your alert message"); window.location.href = "/page_location"; </script>);
 });
+
 
 router.post('/sell',  async (request, response) => {
   if (!auth.isOwner(request, response)) {
@@ -316,6 +284,7 @@ router.post('/sell',  async (request, response) => {
     stocks = stocks.rows[0]['stocks'];
     stocks[jongmok]-=num;
     await pool.query("UPDATE jo SET cash = cash+$1 WHERE jo = $2",[sell_price*num ,jo_id])
+    await pool.query("UPDATE jo SET budget = budget+$1 WHERE jo = $2",[sell_price*num ,jo_id])
     await pool.query("UPDATE jo SET stocks = $1 WHERE jo = $2",[stocks ,jo_id])
     await pool.query("UPDATE current_stocks SET quantity = quantity+$1 WHERE stock_name = $2",[num ,jongmok])
 
@@ -347,25 +316,13 @@ router.post('/buy',  async (request, response) => {
     //   prev_ipchal[jo_id]=eval("quantity"+i);
     //   await pool.query("UPDATE current_stocks SET ipchals = $1 WHERE stock_name = $2 ",[prev_ipchal ,i])
     // }
-    if(post["quantity"+i]) {
-      ipchal_list.push(parseInt(post["quantity"+i]));
-    } else{
-      ipchal_list.push(0);
-    }
-
+    ipchal_list.push(parseInt(post["quantity"+i]));
   }
-  let sum3 = ipchal_list.reduce((partialSum, a) => partialSum + a, 0);
-  if (sum3){
-    console.log(jo_id);
-    console.log(ipchal_list);
-    await pool.query("UPDATE jo SET ipchal = $1 WHERE jo = $2",[ipchal_list ,jo_id])
-   //
-    response.redirect("/");
-  } else {
-    console.log("입찰 무효");
-    response.redirect("/");
-  }
-
+  console.log(jo_id);
+  console.log(ipchal_list);
+  await pool.query("UPDATE jo SET ipchal = $1 WHERE jo = $2",[ipchal_list ,jo_id])
+ //
+  response.redirect("/");
   //response.send(`<script>alert("입찰이 완료되었습니다."); window.location.href = "/"; </script>`);
   //response.send(<script>alert("your alert message"); window.location.href = "/page_location"; </script>);
 });
