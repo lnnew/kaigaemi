@@ -63,9 +63,8 @@ router.get('/danhap', async (request, response) => {
 <html>
 <body>
 
-<a href ="/danhap"><b style="color:blue"> 단합 페이지</b></a>
-<a href ="/ipchal_result"><b style="color:blue"> 입찰 결과 페이지</b></a>
-
+<a href ="/ipchal_result"><b style="color:blue"> 관리자 메인 페이지</b></a>
+<h1>단합</h1>
 <table>
 <tbody><tr>
         <th>단합 번호</th>
@@ -157,6 +156,60 @@ router.get('/danhap', async (request, response) => {
 
 
 })
+
+router.get('/ipchal_now', async (request, response) => {
+  if (!auth.isAdmin(request, response)) {
+    response.redirect('/auth/login');
+    return false;
+  }
+  let danhap = await pool.query(`SELECT * FROM public.jo ORDER BY jo ASC `,[]);
+  // quantities 변동
+  danhap =  danhap.rows;
+  console.log("단합",danhap)
+  current_danhap ="";
+  var stock_names = ["원혁엔터","하윤엔터","소예IT","준서건설","윤정코스메틱","카눌국방","예림교통","카이코인"]
+  for (let i =0; i<danhap.length;i++){
+    current_danhap+=`<tr>
+          <td>${danhap[i]['jo']}</td>
+          <td>${danhap[i]['stocks']}</td>
+          <td>${danhap[i]['ipchal']} </td>
+          <td>${danhap[i]['past_ipchal']} </td>
+          <td>${danhap[i]['budget']} </td>
+          <td>${danhap[i]['cash']} </td>
+        </tr>`
+  }
+  var html = `<!DOCTYPE html>
+<html>
+<body>
+<a href ="/ipchal_result"><b style="color:blue">메인 페이지로 가기 (전년도 입찰 결과)</b></a>
+<h1>현재 페이지: 입찰 현황 </h1>
+<p>실시간으로 바뀌는 입찰 현황 페이지입니다. 모든 조가 입찰 시당해 마감(다음년으로 가기) 버튼을 눌러주세요.</p>
+<hr/>
+<a href ="/year_process" onclick="return confirm('마감하시겠습니까? 다음 년으로 진행합니다.')">><b style="color:blue">마감(다음년으로 가기)</b></a>
+<hr/>
+<table>
+<tbody><tr>
+        <th>조</th>
+        <th>보유주</th>
+        <th>올해입찰</th>
+        <th>저번입찰</th>
+        <th>자산</th>
+        <th>현금</th>
+      </tr>
+      ${current_danhap}
+    </tbody>
+    </table>
+
+
+
+</body>
+</html>
+`
+  response.send(html);
+
+
+
+})
 router.get('/ipchal_result', async (request, response) => {
   if (!auth.isAdmin(request, response)) {
     response.redirect('/auth/login');
@@ -184,7 +237,9 @@ router.get('/ipchal_result', async (request, response) => {
     <hr/>
     <a href ="/danhap"><b style="color:blue"> 단합 페이지</b></a>
     <hr/>
-    <a href ="/ipchal_result"><b style="color:blue"> 입찰 결과 페이지</b></a>
+    <a href ="/ipchal_result"><b style="color:blue"> 전년 입찰 결과 페이지</b></a>
+    <hr/>
+    <a href ="/ipchal_now"><b style="color:blue"> 입찰 현황 페이지</b></a>
     <hr/>
 
     <table>
@@ -205,6 +260,7 @@ router.get('/ipchal_result', async (request, response) => {
 
     </body>
     </html>
+
 `
   response.send(html);
 
