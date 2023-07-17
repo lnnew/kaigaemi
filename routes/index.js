@@ -28,6 +28,7 @@ router.post('/danhap_process',  async (request, response) => {
     return false;
   }
   let post = request.body;
+  console.log("단합 post", post);
   var danhap_num =post["danhap_num"]
   var danhap_jong = post["danhap_jong"];
     var danhap_jos = post["danhap_jos"];
@@ -174,30 +175,36 @@ router.get('/ipchal_result', async (request, response) => {
         </tr>`
   }
     var html =  `<!DOCTYPE html>
-<html>
-<body>
+    <html>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <body>
 
-<h1>The select element</h1>
+    <h1>관리자 페이지</h1>
 
-
+    <hr/>
     <a href ="/danhap"><b style="color:blue"> 단합 페이지</b></a>
+    <hr/>
     <a href ="/ipchal_result"><b style="color:blue"> 입찰 결과 페이지</b></a>
+    <hr/>
 
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<table>
-<tbody>
-<tr>
+    <table>
+    <tbody>
+    <tr>
         <th>종목</th>
         <th>잔여 수량</th>
         <th>입찰 결과</th>
       </tr>
-${ current_stock}
+    ${ current_stock}
     </tbody>
     </table>
+    <style>
+      a{
+        margin-left:50px;
+      }
+      </style>
 
-
-</body>
-</html>
+    </body>
+    </html>
 `
   response.send(html);
 
