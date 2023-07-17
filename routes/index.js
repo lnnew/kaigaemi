@@ -80,7 +80,7 @@ router.get('/danhap', async (request, response) => {
         </b></a>
 <p>The select element is used to create a drop-down list.</p>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<form action="/danhap_process">
+<form action="/danhap_process" method="post">
 <div class="w3-row">
  <div class= "w3-col">
 <label for="quantity">단합 번호</label>
