@@ -17,14 +17,14 @@ const { Client } = require("pg");
 //   password: "570ee5e6b8fe0640c46cf2735695998d5c7f1c17bc6af0709cf5d3b0695fcd18",
 //      port: 5432,
 //  });
-const pool = new Pool({
-  user: "postgres",
-  host: "/cloudsql/kaigaemi:asia-northeast3:quickstart-instance",
- database: "nodedb",
- password: "0329",
-    port: 5432,
-    
-});
+// const pool = new Pool({
+//   user: "postgres",
+//   host: "/cloudsql/kaigaemi:asia-northeast3:quickstart-instance",
+//  database: "nodedb",
+//  password: "0329",
+//     port: 5432,
+//
+// });
  app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('public'));
