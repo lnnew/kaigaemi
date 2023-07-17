@@ -112,41 +112,41 @@ th, td {
  <div class="w3-col w3-row">
  <div class= "w3-col">
    <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="1">
-   <label for="1">1</label>
+   <label for="1">1조</label>
    </div>
     <div class= "w3-col">
    <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="2">
-   <label for="2">2</label>   </div>
+   <label for="2">2조</label>   </div>
     <div class= "w3-col">
       <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="3">
-   <label for="3">3</label>   </div>
+   <label for="3">3조</label>   </div>
     <div class= "w3-col">
    <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="4">
-   <label for="4">4</label>   </div>
+   <label for="4">4조</label>   </div>
     <div class= "w3-col">
       <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="5">
-   <label for="5">5</label>   </div>
+   <label for="5">5조</label>   </div>
     <div class= "w3-col">
    <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="6">
-   <label for="6">6</label>   </div>
+   <label for="6">6조</label>   </div>
     <div class= "w3-col">
       <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="7">
-   <label for="7">7</label>   </div>
+   <label for="7">7조</label>   </div>
     <div class= "w3-col">
    <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="8">
-   <label for="8">8</label>   </div>
+   <label for="8">8조</label>   </div>
     <div class= "w3-col">
       <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="9">
-   <label for="9">9</label>   </div>
+   <label for="9">9조</label>   </div>
     <div class= "w3-col">
    <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="10">
-   <label for="10">10</label>   </div>
+   <label for="10">10조</label>   </div>
     <div class= "w3-col">
       <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="11">
-   <label for="11">11</label>   </div>
+   <label for="11">11조</label>   </div>
     <div class= "w3-col">
    <input type="checkbox" id="danhap_jos" name="danhap_jos[]" value="12">
-   <label for="12">12</label>   </div>
+   <label for="12">12조</label>   </div>
 
    </div>
    <style>
@@ -269,6 +269,7 @@ router.get('/ipchal_result', async (request, response) => {
       padding: 10px;
     }
     </style>
+    <h1>전년도 입찰 결과 => 가공해서 ppt에 사용하세요 </h1>
     <table>
     <tbody>
     <tr>
