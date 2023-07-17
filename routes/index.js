@@ -9,7 +9,7 @@ const pool = new Pool({
  database: "postgres",
  password: "0329",
   //  port: 5432,
-    
+
 });
 
 router.get('/initialize', async (request, response) => {
@@ -72,10 +72,12 @@ router.get('/year_process' , async (request, response) => {
     for (let j =0;j<12;j++){
       a_ipchal.push(ipchal_lists[j]['ipchal'][i]); //j:list index, not조
     }
-    let a_ipchal_result = algorithm(a_ipchal,stock_quantity);
-    console.log("결과:",a_ipchal_result);
-    await pool.query("UPDATE current_stocks SET ipchal_results = $1 WHERE stock_name=$2",[a_ipchal_result,i]);
-    console.log(2);
+    console.log(i, "번째 주식 입찰:",a_ipchal);
+let a_ipchal_result = algorithm(a_ipchal,stock_quantity);
+console.log(i, "번째 주식 결과:",a_ipchal_result);
+await pool.query("UPDATE current_stocks SET ipchal_results = $1 WHERE stock_name=$2",[a_ipchal_result,i]);
+
+
 
     //자산 및 cash 산 거 적}
     for(let jo =1; jo<13;jo++){
