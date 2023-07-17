@@ -6,7 +6,7 @@ const { Pool } = require('pg')
 const pool = new Pool({
   user: "postgres",
   host: "/cloudsql/kaigaemi:asia-northeast3:quickstart-instance",
- database: "nodedb",
+ database: "postgres",
  password: "0329",
   //  port: 5432,
     
