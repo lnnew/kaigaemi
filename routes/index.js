@@ -79,7 +79,7 @@ router.get('/danhap', async (request, response) => {
         </b></a>
 <p>The select element is used to create a drop-down list.</p>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<form action="/action_page.php">
+<form action="/danhap">
 <div class="w3-row">
  <div class= "w3-col">
 <label for="quantity">단합 번호</label>
@@ -161,7 +161,7 @@ router.get('/ipchal_result', async (request, response) => {
     response.redirect('/auth/login');
     return false;
   }
-  let stocks = await pool.query(`SELECT * FROM current_stocks ORDER BY stock_name ASC `,[]);
+  let stock = await pool.query(`SELECT * FROM current_stocks ORDER BY stock_name ASC `,[]);
   // quantities 변동
   stock =  stock.rows;
   var current_stock ="";
