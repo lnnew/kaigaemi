@@ -45,7 +45,7 @@ router.get('/danhap', async (request, response) => {
     response.redirect('/auth/login');
     return false;
   }
-  let danhap = await pool.query("SELECT * FROM danhap ORDER BY group ASC",[]);
+  let danhap = await pool.query(`SELECT * FROM danhap ORDER BY "group" ASC`,[]);
   // quantities 변동
   danhap =  danhap.rows;
   console.log("단합",danhap)
@@ -62,9 +62,16 @@ router.get('/danhap', async (request, response) => {
 <html>
 <body>
 
-<h1>The select element</h1>
+<a href ="/danhap"><b style="color:blue"> 단합 페이지</b></a>
+<a href ="/ipchal_result"><b style="color:blue"> 입찰 결과 페이지</b></a>
+
 <table>
-<tbody>${current_danhap}
+<tbody><tr>
+        <th>단합 번호</th>
+        <th>참여 조들</th>
+        <th>종목 이름</th>
+      </tr>
+      ${current_danhap}
     </tbody>
     </table>
 
@@ -139,6 +146,54 @@ router.get('/danhap', async (request, response) => {
   <input type="submit" value="Submit">
  </div>
 </form>
+
+
+</body>
+</html>
+`
+  response.send(html);
+
+
+
+})
+router.get('/ipchal_result', async (request, response) => {
+  if (!auth.isAdmin(request, response)) {
+    response.redirect('/auth/login');
+    return false;
+  }
+  let stocks = await pool.query(`SELECT * FROM current_stocks ORDER BY stock_name ASC `,[]);
+  // quantities 변동
+  stock =  stock.rows;
+  var current_stock ="";
+  var stock_names = ["원혁엔터","하윤엔터","소예IT","준서건설","윤정코스메틱","카눌국방","예림교통","카이코인"]
+  for (let i =0; i<stock.length;i++){
+    current_stock+=`<tr>
+          <td>${stock[i]['stock_name']}</td>
+          <td>${stock[i]['quantity']}</td>
+          <td>${stock[i]['ipchal_results']} ${stock_names[stock[i]['ipchal_results']]}</td>
+        </tr>`
+  }
+    var html =  `<!DOCTYPE html>
+<html>
+<body>
+
+<h1>The select element</h1>
+
+
+    <a href ="/danhap"><b style="color:blue"> 단합 페이지</b></a>
+    <a href ="/ipchal_result"><b style="color:blue"> 입찰 결과 페이지</b></a>
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<table>
+<tbody>
+<tr>
+        <th>종목</th>
+        <th>잔여 수량</th>
+        <th>입찰 결과</th>
+      </tr>
+${ current_stock}
+    </tbody>
+    </table>
 
 
 </body>
