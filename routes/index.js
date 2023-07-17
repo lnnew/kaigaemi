@@ -5,7 +5,7 @@ var auth = require('../lib/auth');
 const { Pool } = require('pg')
 const pool = new Pool({
   user: "postgres",
-  host: "127.0.0.1",
+  host: "/cloudsql/kaigaemi:asia-northeast3:quickstart-instance",
  database: "nodedb",
  password: "0329",
     port: 5432,
