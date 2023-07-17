@@ -8,7 +8,7 @@ const pool = new Pool({
   host: "/cloudsql/kaigaemi:asia-northeast3:quickstart-instance",
  database: "nodedb",
  password: "0329",
-    port: 5432,
+  //  port: 5432,
     
 });
 
