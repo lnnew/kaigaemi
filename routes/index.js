@@ -33,7 +33,7 @@ router.post('/danhap_process',  async (request, response) => {
   var danhap_jong = post["danhap_jong"];
     var danhap_jos = post["danhap_jos"];
 
-    await pool.query("INSERT INTO danhap(group,jos,stock_name) VALUES ($1,$2,$3)",[danhap_num,danhap_jos,danhap_jong]);
+    await pool.query(`INSERT INTO danhap("group",jos,stock_name) VALUES ($1,$2,$3)`,[danhap_num,danhap_jos,danhap_jong]);
 
 
   response.redirect("/danhap");
