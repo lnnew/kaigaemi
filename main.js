@@ -19,7 +19,7 @@ const { Client } = require("pg");
 //  });
 const pool = new Pool({
   user: "postgres",
-  host: "34.22.85.39",
+  host: "127.0.0.1",
  database: "nodedb",
  password: "0329",
     port: 5432,
