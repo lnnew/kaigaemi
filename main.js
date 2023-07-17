@@ -5,8 +5,7 @@ var bodyParser = require('body-parser');
 var compression = require('compression');
 var helmet = require('helmet')
 app.use(helmet());
-var session = require('express-session')
-var FileStore = require('session-file-store')(session)
+
 var flash = require('connect-flash');
 const { Client } = require("pg");
 // var conString = "postgres://arzktxswwbrmhd:570ee5e6b8fe0640c46cf2735695998d5c7f1c17bc6af0709cf5d3b0695fcd18@ec2-34-231-63-30.compute-1.amazonaws.com:5432/d72ae1dpu44igv";
@@ -30,12 +29,32 @@ const pool = new Pool({
 
 app.use(express.static('public'));
 app.use(compression());
-app.use(session({
-  secret: 'asadlfkj!@#!@#dfgasdg',
-  resave: false,
-  saveUninitialized: true,
-  store: new FileStore()
-}))
+
+var session = require('express-session')
+//var FileStore = require('session-file-store')(session)
+const {Firestore} = require('@google-cloud/firestore');
+const {FirestoreStore} = require('@google-cloud/connect-firestore');
+
+app.use(
+  session({
+    store: new FirestoreStore({
+      dataset: new Firestore(),
+      kind: 'express-sessions',
+    }),
+    secret: 'my-secret',
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+// app.use(session({
+//   secret: 'asadlfkj!@#!@#dfgasdg',
+//   resave: false,
+//   saveUninitialized: true,
+//   store: new FileStore()
+// }))
+
+
 app.use(flash());
 
 var passport = require('./lib/passport')(app);
