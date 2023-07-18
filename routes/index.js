@@ -336,7 +336,7 @@ router.get('/year_process' , async (request, response) => {
   prices =prices.rows;
   let quantities = await pool.query("SELECT * FROM stock_quantities ORDER BY stock_name ASC",[]);
   quantities =  quantities.rows;
-  const danhaps = await pool.query(`SELECT * FROM danhap ORDER BY "group" ASC`,[]);
+  const danhaps = await pool.query(`SELECT * FROM danhap ORDER BY "group" ASC`,[]).rows;
   // const danhaps = await pool.query("SELECT * FROM danhap",[]);
   const danhaped_stock_names =[];
   for (let i =0; i<danhaps.length;i++){
@@ -370,20 +370,31 @@ console.log("danhap11111111", danhaps);
        }
 
        await pool.query("UPDATE jo SET ipchal = $1 WHERE jo=$2",[a_ipchal,jo]);
-
    }
+
+
+
  }
   //danhaped_stock_names.push(danhaps[i]['stock_name']);
-
+  console.log ("danhaped stock names",danhaped_stock_names)
   for(let i=0; i<8; i++) {
+    if (i in danhaped_stock_names){
+
+    }
+
+
+
     let stock_quantity = current_stocks[i]['quantity'];
     //let a_ipchal = [current_stocks[i]['ipchals'];]
     let a_ipchal =[];
     for (let j =0;j<12;j++){
       a_ipchal.push(ipchal_lists[j]['ipchal'][i]); //j:list index, not조
     }
-    
+
+
     console.log(i, "번째 주식 입찰:",a_ipchal);
+
+
 let a_ipchal_result = algorithm(a_ipchal,stock_quantity);
 console.log(i, "번째 주식 결과:",a_ipchal_result);
 await pool.query("UPDATE current_stocks SET ipchal_results = $1 WHERE stock_name=$2",[a_ipchal_result,i]);
