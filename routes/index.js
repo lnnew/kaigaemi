@@ -491,6 +491,7 @@ await pool.query("UPDATE current_stocks SET ipchal_results = $1 WHERE stock_name
 
   // 물량 업데이트
  await pool.query("UPDATE jo SET budget = budget+100",[])
+ await pool.query("UPDATE jo SET year_budget = budget",[])
  await pool.query("UPDATE jo SET cash = cash+100",[])
   response.redirect("/");
 })
