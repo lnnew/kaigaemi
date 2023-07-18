@@ -606,7 +606,6 @@ router.post('/sell',  async (request, response) => {
     stocks = stocks.rows[0]['stocks'];
     stocks[jongmok]-=num;
     await pool.query("UPDATE jo SET cash = cash+$1 WHERE jo = $2",[sell_price*num ,jo_id])
-    await pool.query("UPDATE jo SET budget = budget+$1 WHERE jo = $2",[sell_price*num ,jo_id])
     await pool.query("UPDATE jo SET stocks = $1 WHERE jo = $2",[stocks ,jo_id])
     await pool.query("UPDATE current_stocks SET quantity = quantity+$1 WHERE stock_name = $2",[num ,jongmok])
 
