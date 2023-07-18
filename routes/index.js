@@ -336,7 +336,10 @@ router.get('/year_process' , async (request, response) => {
   prices =prices.rows;
   let quantities = await pool.query("SELECT * FROM stock_quantities ORDER BY stock_name ASC",[]);
   quantities =  quantities.rows;
-  const danhaps = await pool.query(`SELECT * FROM danhap ORDER BY "group" ASC`,[]);
+  var danhaps = await pool.query(`SELECT * FROM danhap ORDER BY "group" ASC`,[]);
+  if (danhaps.rows){
+    danhaps = danhaps.rows;
+  }
   // const danhaps = await pool.query("SELECT * FROM danhap",[]);
   const danhaped_stock_names =[];
   for (let i =0; i<danhaps.length;i++){
