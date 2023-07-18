@@ -352,6 +352,29 @@ router.get('/year_process' , async (request, response) => {
   let ipchal_lists =await pool.query("SELECT ipchal FROM jo ORDER BY jo ASC",[]);
   ipchal_lists=ipchal_lists.rows;
   // 조별 주식 늘어나기 적용, budget에서 구매 금액 빼기
+
+  for (let jo=1;jo<13;jo++){
+  await pool.query("UPDATE jo SET past_ipchal = ipchal WHERE jo =$1",[jo]);
+}
+
+console.log("danhap11111111", danhaps);
+ if (danhaps){
+   for (let jo =1;jo<13; jo ++){
+       let a_ipchal = ipchal_lists[jo-1]["ipchal"];
+       for (let i =0; i<danhaps.length;i++){
+          let a_danhap = danhaps[i]['stock_name'];
+          console.log("danhap",jo, danhaps[i]["jos"],a_danhap);
+          if (!(jo in danhaps[i]["jos"])) {
+             a_ipchal[a_danhap]=0;
+            }
+       }
+
+       await pool.query("UPDATE jo SET ipchal = $1 WHERE jo=$2",[a_ipchal,jo]);
+
+   }
+ }
+  //danhaped_stock_names.push(danhaps[i]['stock_name']);
+
   for(let i=0; i<8; i++) {
     let stock_quantity = current_stocks[i]['quantity'];
     //let a_ipchal = [current_stocks[i]['ipchals'];]
@@ -359,6 +382,7 @@ router.get('/year_process' , async (request, response) => {
     for (let j =0;j<12;j++){
       a_ipchal.push(ipchal_lists[j]['ipchal'][i]); //j:list index, not조
     }
+    
     console.log(i, "번째 주식 입찰:",a_ipchal);
 let a_ipchal_result = algorithm(a_ipchal,stock_quantity);
 console.log(i, "번째 주식 결과:",a_ipchal_result);
