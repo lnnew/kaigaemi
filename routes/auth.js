@@ -132,7 +132,7 @@ module.exports = function (passport) {
             }
         </style>
       <div class="ex1">
-        <img src="https://scontent-ssn1-1.xx.fbcdn.net/v/t1.18169-9/18198205_1814895962162452_3040385849366417553_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=730e14&_nc_ohc=Tkx6Ckc2V4kAX-UsPwL&_nc_ht=scontent-ssn1-1.xx&oh=00_AfCLBnv7PJ2RPF44mvBQaPA524jTsRgG9EVYVR9fybcOFQ&oe=63CBF466"
+        <img src="https://scontent.ficn2-2.fna.fbcdn.net/v/t1.6435-9/171254098_736058853748259_7868857286441811331_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=973b4a&_nc_ohc=LaSUR44QT88AX-YxIs9&_nc_ht=scontent.ficn2-2.fna&oh=00_AfB3Mb4kFcw9vslMVw8PR2ha2N8jkhsMzuSWaSQxn0X-0g&oe=64DD812B"
            alt="Lamp" width="500" style = "border-radius: 30%; margin:0px 45px;text-align:center; background-color:black; opacity:80%;border: 2px solid black;" height="500">
 
                   <div class="container">
