@@ -631,7 +631,7 @@ router.post('/sell',  async (request, response) => {
     await pool.query("UPDATE jo SET cash = cash+$1 WHERE jo = $2",[sell_price*num ,jo_id])
 
     // 매도 수수료
-    let susuryo = Math.floor((sell_price*num)*0.03);
+    let susuryo = Math.ceil((sell_price*num)*0.03);
     await pool.query("UPDATE jo SET cash = cash-$1 WHERE jo = $2",[susuryo, jo_id])
     await pool.query("UPDATE jo SET budget = budget-$1 WHERE jo = $2",[susuryo, jo_id])
 
