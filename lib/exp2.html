@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+
+    <title>Number Index</title>
+
+</head>
+<body>
+    <!-- 숫자 인덱스	 -->
+    <div class="num-container" id="num-container">
+        <div class="num-item">
+            <h4 class="in-title">Index 1</h4>
+            <span class="nums_ani" data-count="180">0</span><span id="num-unit">%</span><br>
+            <span class="sub-title">이용률 포함</span><br>
+        </div>
+        <div class="num-item">
+            <h4 class="in-title">Index 2</h4>
+            <span class="nums_ani" data-count="1143">0</span><span id="num-unit">개</span><br>
+            <span class="sub-title">프랜차이즈 매장수</span><br>
+        </div>
+        <div class="num-item">
+            <h4 class="in-title">Index 3</h4>
+            <span class="nums_ani" data-count="34">0</span><span id="num-unit">개</span><br>
+            <span class="sub-title">직영매장 수</span><br>
+        </div>
+        <div class="num-item">
+            <h4 class="in-title">Index 4</h4>
+            <span class="nums_ani" data-count="438.4">0</span><span id="num-unit">%</span><br>
+            <span class="sub-title">수익률</span><br>
+        </div>
+    </div>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js"></script>
+    <script>
+        //숫자 카운트 애니메이션
+        $('.nums_ani').each(function () {
+            const $this = $(this),
+                countTo = $this.attr('data-count');
+
+            $({
+                countNum: $this.text()
+            }).animate({
+                countNum: countTo
+            }, {
+                duration: 3000,
+                easing: 'linear',
+                step: function () {
+                    $this.text(Math.floor(this.countNum));
+                },
+                complete: function () {
+                    $this.text(this.countNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+                    //3자리 마다 콤마 표시 적용
+                }
+            });
+        });
+    </script>
+</body>
+</html>
