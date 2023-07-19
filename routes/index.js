@@ -340,6 +340,7 @@ router.get('/year_process' , async (request, response) => {
   if (danhaps.rows){
     danhaps = danhaps.rows;
   }
+  console.log(danhap.rows);
   // const danhaps = await pool.query("SELECT * FROM danhap",[]);
   const danhaped_stock_names =[];
   for (let i =0; i<danhaps.length;i++){
@@ -494,6 +495,7 @@ await pool.query("UPDATE current_stocks SET ipchal_results = $1 WHERE stock_name
  await pool.query("UPDATE jo SET year_budget = budget",[])
  await pool.query("UPDATE jo SET cash = cash+100",[])
 
+//세무조사
  if (year==2019){
    let semu_ranking = await pool.query("SELECT jo FROM jo ORDER BY year_budget DESC",[]);
    semu_ranking = semu_ranking.rows;
@@ -627,6 +629,13 @@ router.post('/sell',  async (request, response) => {
     stocks = stocks.rows[0]['stocks'];
     stocks[jongmok]-=num;
     await pool.query("UPDATE jo SET cash = cash+$1 WHERE jo = $2",[sell_price*num ,jo_id])
+
+    // 매도 수수료
+    let susuryo = Math.floor((sell_price*num)*0.03);
+    await pool.query("UPDATE jo SET cash = cash-$1 WHERE jo = $2",[susuryo, jo_id])
+    await pool.query("UPDATE jo SET budget = budget-$1 WHERE jo = $2",[susuryo, jo_id])
+
+
     await pool.query("UPDATE jo SET stocks = $1 WHERE jo = $2",[stocks ,jo_id])
     await pool.query("UPDATE current_stocks SET quantity = quantity+$1 WHERE stock_name = $2",[num ,jongmok])
 
