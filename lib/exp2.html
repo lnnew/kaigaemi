@@ -32,6 +32,10 @@
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js"></script>
     <script>
         //숫자 카운트 애니메이션
+        function addComma(value){
+        value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return value;
+    }
         $('.nums_ani').each(function () {
             const $this = $(this),
                 countTo = $this.attr('data-count');
@@ -44,10 +48,10 @@
                 duration: 3000,
                 easing: 'linear',
                 step: function () {
-                    $this.text(Math.floor(this.countNum));
+                    $this.text(addComma(Math.floor(this.countNum).toString()));
                 },
                 complete: function () {
-                    $this.text(this.countNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+                    $this.text(addComma(this.countNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')));
                     //3자리 마다 콤마 표시 적용
                 }
             });
