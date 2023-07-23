@@ -368,24 +368,26 @@ router.get('/year_process' , async (request, response) => {
 console.log("danhap11111111", danhaps);
  if (danhaps){
    //danhaped_stock_names.push(danhaps[i]['stock_name']);
-   console.log ("danhaped stock names",danhaped_stock_names)
-   for(let i=0; i<danhaps.length; i++) {
-        danhaped_stock_name = danhaps[i]['stock_name'];
-        danhaped_jos = danhaps[i]['jos'];
-       for(jo=1;jo<=12; jo++){
-         if (!(jo in danhaped_jos)){
-           //단합 외 입찰 초기화
-           console.log(jo,"조 ",danhaped_stock_name, "번 주식 입찰 무효화")
-           let ipchal_lists_befored =await pool.query("SELECT ipchal FROM jo WHERE jo =$1",[jo]);
-           ipchal_lists_befored=ipchal_lists_befored.rows[0]['ipchal'];
-           console.log("ipchal_lists_befored",ipchal_lists_befored,"")
-           ipchal_lists_befored[danhaped_stock_name] = 0;
-           await  pool.query("UPDATE jo SET ipchal = $1 WHERE jo =$2",[ipchal_lists_befored,jo]);
+     console.log ("danhaped stock names",danhaped_stock_names)
+     for(let i=0; i<danhaps.length; i++) {
+          danhaped_stock_name = danhaps[i]['stock_name'];
+          danhaped_jos = danhaps[i]['jos'];
+          console.log("danhaped_stock_name:",danhaped_stock_name)
+          console.log("danhaped_jos:",danhaped_jos)
+         for(jo=1;jo<=12; jo++){
+           if (!(jo in danhaped_jos)){
+             //단합 외 입찰 초기화
+             console.log(jo,"조 ",danhaped_stock_name, "번 주식 입찰 무효화")
+             let ipchal_lists_befored =await pool.query("SELECT ipchal FROM jo WHERE jo =$1",[jo]);
+             ipchal_lists_befored=ipchal_lists_befored.rows[0]['ipchal'];
+             console.log("ipchal_lists_befored",ipchal_lists_befored,"")
+             ipchal_lists_befored[danhaped_stock_name] = 0;
+             await  pool.query("UPDATE jo SET ipchal = $1 WHERE jo =$2",[ipchal_lists_befored,jo]);
+           }
          }
-       }
- }
-
-
+   }
+}
+for(let i=0; i<8; i++) {
 
     let stock_quantity = current_stocks[i]['quantity'];
     //let a_ipchal = [current_stocks[i]['ipchals'];]
