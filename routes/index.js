@@ -343,10 +343,6 @@ router.get('/year_process' , async (request, response) => {
   console.log(danhaps.rows);
 
   // const danhaps = await pool.query("SELECT * FROM danhap",[]);
-  const danhaped_stock_names =[];
-  for (let i =0; i<danhaps.length;i++){
-    danhaped_stock_names.push(danhaps[i]['stock_name']);
-  }
 
 
 
@@ -357,25 +353,18 @@ router.get('/year_process' , async (request, response) => {
   let current_stocks = await pool.query("SELECT * FROM current_stocks ORDER BY stock_name ASC",[]);
   current_stocks=current_stocks.rows;
   // console.log(current_stocks.rows[0]); { stock_name: 0, quantity: null, ipchal_results: null }
-  let ipchal_lists =await pool.query("SELECT ipchal FROM jo ORDER BY jo ASC",[]);
-  ipchal_lists=ipchal_lists.rows;
-  // 조별 주식 늘어나기 적용, budget에서 구매 금액 빼기
 
-  for (let jo=1;jo<13;jo++){
-  await pool.query("UPDATE jo SET past_ipchal = ipchal WHERE jo =$1",[jo]);
-}
+
 
 console.log("danhap11111111", danhaps);
  if (danhaps){
-   //danhaped_stock_names.push(danhaps[i]['stock_name']);
-     console.log ("danhaped stock names",danhaped_stock_names)
      for(let i=0; i<danhaps.length; i++) {
           danhaped_stock_name = danhaps[i]['stock_name'];
           danhaped_jos = danhaps[i]['jos'];
           console.log("danhaped_stock_name:",danhaped_stock_name)
           console.log("danhaped_jos:",danhaped_jos)
          for(jo=1;jo<=12; jo++){
-           if (!(jo in danhaped_jos)){
+           if (!(danhaped_jos.includes(jo))){
              //단합 외 입찰 초기화
              console.log(jo,"조 ",danhaped_stock_name, "번 주식 입찰 무효화")
              let ipchal_lists_befored =await pool.query("SELECT ipchal FROM jo WHERE jo =$1",[jo]);
@@ -387,6 +376,15 @@ console.log("danhap11111111", danhaps);
          }
    }
 }
+
+for (let jo=1;jo<13;jo++){
+await pool.query("UPDATE jo SET past_ipchal = ipchal WHERE jo =$1",[jo]);
+}
+let ipchal_lists =await pool.query("SELECT ipchal FROM jo ORDER BY jo ASC",[]);
+ipchal_lists=ipchal_lists.rows;
+// 조별 주식 늘어나기 적용, budget에서 구매 금액 빼기
+
+
 for(let i=0; i<8; i++) {
 
     let stock_quantity = current_stocks[i]['quantity'];
