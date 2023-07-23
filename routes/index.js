@@ -340,7 +340,8 @@ router.get('/year_process' , async (request, response) => {
   if (danhaps.rows){
     danhaps = danhaps.rows;
   }
-  console.log(danhap.rows);
+  console.log(danhaps.rows);
+
   // const danhaps = await pool.query("SELECT * FROM danhap",[]);
   const danhaped_stock_names =[];
   for (let i =0; i<danhaps.length;i++){
