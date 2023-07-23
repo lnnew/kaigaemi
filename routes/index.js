@@ -308,7 +308,7 @@ router.get('/initialize', async (request, response) => {
   //stock 초기화
   await pool.query("DELETE FROM current_stocks",[]);
   await pool.query("DELETE FROM jo",[]);
-
+ await pool.query("DELETE FROM danhap",[]);
   let quantities = await pool.query("SELECT * FROM stock_quantities ORDER BY stock_name ASC",[]);
   // quantities 변동
   quantities =  quantities.rows;
