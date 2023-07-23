@@ -347,6 +347,9 @@ router.get('/year_process' , async (request, response) => {
   for (let i =0; i<danhaps.length;i++){
     danhaped_stock_names.push(danhaps[i]['stock_name']);
   }
+
+
+
   // 종목 별 입찰 결과 계산
 
   let  year = await pool.query("SELECT value_int FROM current_info WHERE name=$1",["year"]);
@@ -364,28 +367,20 @@ router.get('/year_process' , async (request, response) => {
 
 console.log("danhap11111111", danhaps);
  if (danhaps){
-   for (let jo =1;jo<13; jo ++){
-       let a_ipchal = ipchal_lists[jo-1]["ipchal"];
-       for (let i =0; i<danhaps.length;i++){
-          let a_danhap = danhaps[i]['stock_name'];
-          console.log("danhap",jo, danhaps[i]["jos"],a_danhap);
-          if (!(jo in danhaps[i]["jos"])) {
-             a_ipchal[a_danhap]=0;
-            }
+   //danhaped_stock_names.push(danhaps[i]['stock_name']);
+   console.log ("danhaped stock names",danhaped_stock_names)
+   for(let i=0; i<danhaps.length; i++) {
+        danhaped_stock_name = danhaps[i]['stock_name'];
+        danhaped_jos = danhaps[i]['jos'];
+       for(jo=1;jo<=12; jo++){
+         if (!(jo in danhap_jos)){
+           //단합 외 입찰 초기화
+           let ipchal_lists_befored =await pool.query("SELECT ipchal FROM jo WHERE jo =$1",[jo]);
+           ipchal_lists_befored[i] = 0;
+           await  pool.query("UPDATE jo SET ipchal = $1 WHERE jo =$2",[ipchal_lists_befored,jo]);
+         }
        }
-
-       await pool.query("UPDATE jo SET ipchal = $1 WHERE jo=$2",[a_ipchal,jo]);
-   }
-
-
-
  }
-  //danhaped_stock_names.push(danhaps[i]['stock_name']);
-  console.log ("danhaped stock names",danhaped_stock_names)
-  for(let i=0; i<8; i++) {
-    if (i in danhaped_stock_names){
-
-    }
 
 
 
