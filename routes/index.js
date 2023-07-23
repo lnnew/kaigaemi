@@ -377,7 +377,8 @@ console.log("danhap11111111", danhaps);
            //단합 외 입찰 초기화
            console.log(jo,"조 ",danhaped_stock_name, "번 주식 입찰 무효화")
            let ipchal_lists_befored =await pool.query("SELECT ipchal FROM jo WHERE jo =$1",[jo]);
-           ipchal_lists_befored=ipchal_lists_befored.rows;
+           ipchal_lists_befored=ipchal_lists_befored.rows[0]['ipchal'];
+           console.log("ipchal_lists_befored",ipchal_lists_befored,"")
            ipchal_lists_befored[danhaped_stock_name] = 0;
            await  pool.query("UPDATE jo SET ipchal = $1 WHERE jo =$2",[ipchal_lists_befored,jo]);
          }
