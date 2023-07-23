@@ -373,10 +373,11 @@ console.log("danhap11111111", danhaps);
         danhaped_stock_name = danhaps[i]['stock_name'];
         danhaped_jos = danhaps[i]['jos'];
        for(jo=1;jo<=12; jo++){
-         if (!(jo in danhap_jos)){
+         if (!(jo in danhaped_jos)){
            //단합 외 입찰 초기화
+           console.log(jo,"조 ",danhaped_stock_name, "번 주식 입찰 무효화")
            let ipchal_lists_befored =await pool.query("SELECT ipchal FROM jo WHERE jo =$1",[jo]);
-           ipchal_lists_befored[i] = 0;
+           ipchal_lists_befored[danhaped_stock_name] = 0;
            await  pool.query("UPDATE jo SET ipchal = $1 WHERE jo =$2",[ipchal_lists_befored,jo]);
          }
        }
