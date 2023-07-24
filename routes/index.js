@@ -481,13 +481,16 @@ await pool.query("UPDATE current_stocks SET ipchal_results = $1 WHERE stock_name
   }
 
   //주식 종목 별 추가 수량 입고
-  let stock_qs = await pool.query("SELECT * FROM stock_quantities ORDER BY stock_name ASC",[])
-  stock_qs = stock_qs.rows;
-  for (let i =0; i<8;i++){
-    let ipgo=stock_qs[i][year] - stock_qs[i][year-1];
-    await pool.query("UPDATE current_stocks SET quantity = quantity+$1 WHERE stock_name =$2",[ipgo,i]);
+  if (year!=2022){
+    let stock_qs = await pool.query("SELECT * FROM stock_quantities ORDER BY stock_name ASC",[])
+    stock_qs = stock_qs.rows;
+    for (let i =0; i<8;i++){
+      let ipgo=stock_qs[i][year] - stock_qs[i][year-1];
+      await pool.query("UPDATE current_stocks SET quantity = quantity+$1 WHERE stock_name =$2",[ipgo,i]);
 
+    }
   }
+
 
   // 물량 업데이트
  await pool.query("UPDATE jo SET budget = budget+100",[])
