@@ -498,6 +498,7 @@ await pool.query("UPDATE current_stocks SET ipchal_results = $1 WHERE stock_name
  if (year==2019){
    let semu_ranking = await pool.query("SELECT jo FROM jo ORDER BY year_budget DESC",[]);
    semu_ranking = semu_ranking.rows;
+   console.log("semu",semu_ranking)
    for (let i =0; i<3; i++){
      await pool.query("UPDATE jo SET year_budget = year_budget-50 WHERE jo=$1",[semu_ranking[i] ])
       await pool.query("UPDATE jo SET budget = budget-50 WHERE jo=$1",[semu_ranking[i] ])
@@ -506,6 +507,7 @@ await pool.query("UPDATE current_stocks SET ipchal_results = $1 WHERE stock_name
  } else if (year ==2021){
    let semu_ranking = await pool.query("SELECT jo FROM jo ORDER BY year_budget DESC",[]);
    semu_ranking = semu_ranking.rows;
+   console.log("semu",semu_ranking)
    for (let i =0; i<3; i++){
      await pool.query("UPDATE jo SET year_budget = year_budget-100 WHERE jo=$1",[semu_ranking[i] ])
       await pool.query("UPDATE jo SET budget = budget-100 WHERE jo=$1",[semu_ranking[i] ])
